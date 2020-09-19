@@ -1,0 +1,11 @@
+FROM ubuntu:18.04
+ENV container docker
+RUN apt-get update && apt-get install -y \
+  wget \
+  build-essential
+CMD bash
+
+RUN printf "deb https://oplab9.parqtec.unicamp.br/pub/repository/debian/ ./" >> /etc/apt/sources.list
+RUN wget https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc
+RUN apt-key add openpower-gpgkey-public.asc
+RUN apt-get update
