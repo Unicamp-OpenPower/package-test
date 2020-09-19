@@ -1,9 +1,14 @@
 #!/bin/bash
 
 cd $TRAVIS_BUILD_DIR
-if [ "$(cat log_error)" != "" ]
+if [ -f $TRAVIS_BUILD_DIR/log_error ]
 then
-  echo "Unsuccessful tests:"
-  cat log_error
-  exit 1
+  if [ "$(cat log_error)" != "" ]
+  then
+    echo "Failed tests:"
+    cat log_error
+    exit 1
+  fi
+else
+  echo "All tests succeeded"
 fi
