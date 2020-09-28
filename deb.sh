@@ -142,7 +142,21 @@ printf "\nRUN apt-get -y install $DOCKER_CE_CLI\nRUN docker --version" >> Docker
 cd $LOCALPATH
 
 cd $GLIDE
+rm Dockerfile
+printf "FROM ubuntu:18.04\n" >> Dockerfile
+printf "\nENV container docker" >> Dockerfile
+printf "\nRUN apt-get update && apt-get install -y wget build-essential tar apt-utils" >> Dockerfile
+printf "\nCMD bash" >> Dockerfile
+printf "\nFROM golang:1.14" >> Dockerfile
+printf "\nWORKDIR /go/src/app" >> Dockerfile
+printf "\nRUN printf \"deb https://oplab9.parqtec.unicamp.br/pub/repository/debian/ ./\" >> /etc/apt/sources.list" >> Dockerfile
+printf "\nRUN wget https://oplab9.parqtec.unicamp.br/pub/key/openpower-gpgkey-public.asc" >> Dockerfile
+printf "\nRUN apt-key add openpower-gpgkey-public.asc" >> Dockerfile
+printf "\nRUN apt-get update" >> Dockerfile
 printf "\nRUN apt-get -y install $GLIDE\nRUN $GLIDE --version" >> Dockerfile
+printf "\nRUN yes | glide init" >> Dockerfile
+printf "\nRUN glide update" >> Dockerfile
+printf "\nRUN glide install" >> Dockerfile
 {
   docker build -t $GLIDE-test -f $LOCALPATH/$GLIDE/Dockerfile .
 } || {
@@ -171,7 +185,8 @@ cd $LOCALPATH
 
 cd $KIALI
 printf "\nRUN apt-get -y install $KIALI" >> Dockerfile
-#printf "\nRUN $KIALI --version" >> Dockerfile
+#printf "\nRUN apt-get -y install $KIALI\nRUN $KIALI --version" >> Dockerfile
+#printf "\nRUN if \[ \$\? \=\= 2 \]\; then exit 0\; else exit 1\; fi" >> Dockerfile
 {
   docker build -t $KIALI-test -f $LOCALPATH/$KIALI/Dockerfile .
 } || {
@@ -184,8 +199,13 @@ printf "\nRUN apt-get -y install $KIALI" >> Dockerfile
 }
 cd $LOCALPATH
 
+
 cd $MINIKUBE
+#printf "\nRUN apt -y install docker" >> Dockerfile
+#printf "\nRUN apt -y install sudo" >> Dockerfile
+#printf "\nRUN apt -y install conntrack" >> Dockerfile
 printf "\nRUN apt-get -y install $MINIKUBE\nRUN $MINIKUBE version" >> Dockerfile
+#printf "\nRUN minikube start --driver=virtualbox  --memory \"2048\" --cpus 2" >> Dockerfile
 {
   docker build -t $MINIKUBE-test -f $LOCALPATH/$MINIKUBE/Dockerfile .
 } || {
@@ -200,6 +220,7 @@ cd $LOCALPATH
 
 cd $MINIO
 printf "\nRUN apt-get -y install $MINIO\nRUN $MINIO --version" >> Dockerfile
+printf "\nRUN timeout --preserve-status 5 minio server /data" >> Dockerfile
 {
   docker build -t $MINIO-test -f $LOCALPATH/$MINIO/Dockerfile .
 } || {
@@ -215,6 +236,7 @@ cd $LOCALPATH
 cd $MINIO_MC
 MINIO_MC_PACKAGE="mc"
 printf "\nRUN apt-get -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
+#printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
 {
   docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
 } || {
@@ -229,6 +251,9 @@ cd $LOCALPATH
 
 cd $RESTIC
 printf "\nRUN apt-get -y install $RESTIC\nRUN $RESTIC version" >> Dockerfile
+#printf "\nRUN yes | restic -r restic-repo init" >> Dockerfile
+#printf "\nRUN yes | restic -r restic-repo backup ." >> Dockerfile
+#printf "\nRUN yes | restic -r restic-repo snapshots" >> Dockerfile
 {
   docker build -t $RESTIC-test -f $LOCALPATH/$RESTIC/Dockerfile .
 } || {
@@ -243,6 +268,11 @@ cd $LOCALPATH
 
 cd $TERRAFORM
 printf "\nRUN apt-get -y install $TERRAFORM\nRUN $TERRAFORM --version" >> Dockerfile
+printf "\nRUN mkdir terraform-test" >> Dockerfile
+printf "\nRUN cd terraform-test" >> Dockerfile
+printf "\nRUN printf \"\" >> main.tf" >> Dockerfile
+printf "\nRUN terraform init" >> Dockerfile
+printf "\nRUN terraform plan" >> Dockerfile
 {
   docker build -t $TERRAFORM-test -f $LOCALPATH/$TERRAFORM/Dockerfile .
 } || {
@@ -257,6 +287,10 @@ cd $LOCALPATH
 
 cd $RCLONE
 printf "\nRUN apt-get -y install $RCLONE\nRUN $RCLONE --version" >> Dockerfile
+printf "\nRUN mkdir rclone1" >> Dockerfile
+printf "\nRUN mkdir rclone2" >> Dockerfile
+printf "\nRUN rclone config create test local config_is_local true" >> Dockerfile
+printf "\nRUN rclone sync -i rclone1 rclone2" >> Dockerfile
 {
   docker build -t $RCLONE-test -f $LOCALPATH/$RCLONE/Dockerfile .
 } || {
