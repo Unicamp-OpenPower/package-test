@@ -24,9 +24,9 @@ script:
   then
     echo "entrou"
   fi
-  - if [ $instancia = docker ]
-  then
-    echo "entrou no 2"
-  fi
-  - if: instancia = vm1
+  #- if [ $instancia = docker ]
+  #then
+    #echo "entrou no 2"
+  #fi
+  #- if: instancia = vm1
   - bash hello-docker.sh
