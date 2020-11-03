@@ -17,6 +17,6 @@ script:
   if: instancia = docker
   #bash rpm.sh
   #bash deb.sh
-  bash log_test.sh
+  - bash log_test.sh
   if: instancia = vm1
-  bash hello.docker.sh
+  - bash hello.docker.sh
