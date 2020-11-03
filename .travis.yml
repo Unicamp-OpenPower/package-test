@@ -15,12 +15,13 @@ install:
   - sudo apt-get update
 
 script:
-  #bash rpm.sh
-  #bash deb.sh
-  - bash log_test.sh
-  - echo $instancia
   - if [ $instancia == "docker" ]; then
-    echo "entrou no 2";
+      echo "entrou no docker";
+      #bash rpm.sh;
+      #bash deb.sh;
+      bash log_test.sh;
     fi
-  #- if: $instancia = vm1
-  - bash hello-docker.sh
+  - if [ $instancia == "vm1" ]; then
+      echo "entrou na vm1";
+      bash hello-docker.sh;
+    fi
