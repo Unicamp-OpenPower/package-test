@@ -7,8 +7,8 @@ services:
 
 jobs:
   include:
-    - instancia: docker
-    - instancia: vm1
+    - env: instancia=docker
+    - env: instancia=vm1
 
 install:
   - sudo apt-get update
@@ -18,5 +18,15 @@ script:
   #bash rpm.sh
   #bash deb.sh
   - bash log_test.sh
-  #if: instancia = vm1
-  - bash hello.docker.sh
+  - echo instancia
+  - echo $instancia
+  - if [ instancia = docker ]
+  then
+    echo "entrou"
+  fi
+  - if [ $instancia = docker ]
+  then
+    echo "entrou no 2"
+  fi
+  - if: instancia = vm1
+  - bash hello-docker.sh
