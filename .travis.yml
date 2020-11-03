@@ -20,13 +20,13 @@ script:
   - bash log_test.sh
   - echo instancia
   - echo $instancia
-  - if [ instancia = docker ]
-  then
-    echo "entrou"
-  fi
+  #- if [ instancia = docker ]
+  #then
+    #echo "entrou"
+  #fi
   #- if [ $instancia = docker ]
   #then
     #echo "entrou no 2"
   #fi
-  #- if: instancia = vm1
+  - if: instancia = vm1
   - bash hello-docker.sh
