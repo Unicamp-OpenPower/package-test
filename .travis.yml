@@ -5,10 +5,18 @@ dist: bionic
 services:
   - docker
 
+jobs:
+  include:
+    - instancia: docker
+    - instancia: vm1
+
 install:
   - sudo apt-get update
 
 script:
-  - bash rpm.sh
-  - bash deb.sh
-  - bash log_test.sh
+  if: instancia = docker
+  #bash rpm.sh
+  #bash deb.sh
+  bash log_test.sh
+  if: instancia = vm1
+  bash hello.docker.sh
