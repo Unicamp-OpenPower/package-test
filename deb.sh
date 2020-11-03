@@ -17,6 +17,9 @@ RESTIC="restic"
 TERRAFORM="terraform"
 RCLONE="rclone"
 MATCHBOX="matchbox"
+KUBEADM="kubeadm"
+KUBECTL="kubectl"
+KUBELET="kubelet"
 
 mkdir deb
 cd $LOCALPATH
@@ -39,6 +42,9 @@ mkdir $RESTIC
 mkdir $TERRAFORM
 mkdir $RCLONE
 mkdir $MATCHBOX
+mkdir $KUBEADM
+mkdir $KUBECTL
+mkdir $KUBELET
 
 cp Dockerfile $CONTAINERD
 cp Dockerfile $CONTAINERD_CRI
@@ -56,6 +62,9 @@ cp Dockerfile $RESTIC
 cp Dockerfile $TERRAFORM
 cp Dockerfile $RCLONE
 cp Dockerfile $MATCHBOX
+cp Dockerfile $KUBEADM
+cp Dockerfile $KUBECTL
+cp Dockerfile $KUBELET
 
 cd $CONTAINERD
 printf "\nRUN apt-get -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
@@ -100,7 +109,9 @@ printf "\nRUN apt-get -y install $CONTAINERD_CRI_CNI\nRUN $CONTAINERD --version"
 cd $LOCALPATH
 
 cd $BAZEL
-printf "\nRUN apt-get -y install $BAZEL\nRUN $BAZEL --version" >> Dockerfile
+printf "\nRUN apt-get -y install $BAZEL git\nRUN $BAZEL --version" >> Dockerfile
+printf "\nRUN git clone https://github.com/bazelbuild/examples" >> Dockerfile
+printf "\nRUN cd examples/cpp-tutorial/stage3/; bazel build //main:hello-world; bazel-bin/main/hello-world" >> Dockerfile
 {
   docker build -t $BAZEL-test -f $LOCALPATH/$BAZEL/Dockerfile .
 } || {
@@ -321,5 +332,47 @@ printf "\nRUN apt-get -y install $MATCHBOX\nRUN $MATCHBOX --version" >> Dockerfi
   docker run -d $MATCHBOX-test
 } || {
   printf "Error in DEB package, docker run process: $MATCHBOX\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+cd $KUBEADM
+printf "\nRUN apt-get -y install $KUBEADM\nRUN $KUBEADM --version" >> Dockerfile
+{
+  docker build -t $KUBEADM-test -f $LOCALPATH/$KUBEADM/Dockerfile .
+} || {
+  printf "Error in DEB package, docker build process: $KUBEADM\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $KUBEADM-test
+} || {
+  printf "Error in DEB package, docker run process: $KUBEADM\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+cd $KUBECTL
+printf "\nRUN apt-get -y install $KUBECTL\nRUN $KUBECTL --version" >> Dockerfile
+{
+  docker build -t $KUBECTL-test -f $LOCALPATH/$KUBECTL/Dockerfile .
+} || {
+  printf "Error in DEB package, docker build process: $KUBECTL\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $KUBECTL-test
+} || {
+  printf "Error in DEB package, docker run process: $KUBECTL\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+cd $KUBELET
+printf "\nRUN apt-get -y install $KUBELET\nRUN $KUBELET --version" >> Dockerfile
+{
+  docker build -t $KUBELET-test -f $LOCALPATH/$KUBELET/Dockerfile .
+} || {
+  printf "Error in DEB package, docker build process: $KUBELET\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $KUBELET-test
+} || {
+  printf "Error in DEB package, docker run process: $KUBELET\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH
