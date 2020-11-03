@@ -2,6 +2,7 @@ language: shell
 os: linux
 arch: ppc64le
 dist: bionic
+sudo: required
 services:
   - docker
 
@@ -14,19 +15,13 @@ install:
   - sudo apt-get update
 
 script:
-  #if: instancia = docker
   #bash rpm.sh
   #bash deb.sh
   - bash log_test.sh
-  - echo instancia
   - echo $instancia
-  #- if [ instancia = docker ]
-  #then
-    #echo "entrou"
-  #fi
   #- if [ $instancia = docker ]
   #then
     #echo "entrou no 2"
   #fi
-  - if: instancia = vm1
+  - if: $instancia = vm1
   - bash hello-docker.sh
