@@ -14,9 +14,9 @@ install:
   - sudo apt-get update
 
 script:
-  if: instancia = docker
+  #if: instancia = docker
   #bash rpm.sh
   #bash deb.sh
   - bash log_test.sh
-  if: instancia = vm1
+  #if: instancia = vm1
   - bash hello.docker.sh
