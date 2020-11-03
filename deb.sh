@@ -336,7 +336,7 @@ printf "\nRUN apt-get -y install $MATCHBOX\nRUN $MATCHBOX --version" >> Dockerfi
 cd $LOCALPATH
 
 cd $KUBEADM
-printf "\nRUN apt-get -y install $KUBEADM\nRUN $KUBEADM --version" >> Dockerfile
+printf "\nRUN apt-get -y install $KUBEADM\nRUN $KUBEADM version" >> Dockerfile
 {
   docker build -t $KUBEADM-test -f $LOCALPATH/$KUBEADM/Dockerfile .
 } || {
@@ -350,7 +350,7 @@ printf "\nRUN apt-get -y install $KUBEADM\nRUN $KUBEADM --version" >> Dockerfile
 cd $LOCALPATH
 
 cd $KUBECTL
-printf "\nRUN apt-get -y install $KUBECTL\nRUN $KUBECTL --version" >> Dockerfile
+printf "\nRUN apt-get -y install $KUBECTL\nRUN $KUBECTL --help" >> Dockerfile
 {
   docker build -t $KUBECTL-test -f $LOCALPATH/$KUBECTL/Dockerfile .
 } || {

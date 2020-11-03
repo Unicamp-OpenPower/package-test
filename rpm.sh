@@ -321,7 +321,7 @@ printf "\nRUN yum -y install $MATCHBOX\nRUN $MATCHBOX --version" >> Dockerfile
 cd $LOCALPATH
 
 cd $KUBEADM
-printf "\nRUN yum -y install $KUBEADM\nRUN $KUBEADM --version" >> Dockerfile
+printf "\nRUN yum -y install $KUBEADM\nRUN $KUBEADM version" >> Dockerfile
 {
   docker build -t $KUBEADM-test -f $LOCALPATH/$KUBEADM/Dockerfile .
 } || {
@@ -335,7 +335,7 @@ printf "\nRUN yum -y install $KUBEADM\nRUN $KUBEADM --version" >> Dockerfile
 cd $LOCALPATH
 
 cd $KUBECTL
-printf "\nRUN yum -y install $KUBECTL\nRUN $KUBECTL --version" >> Dockerfile
+printf "\nRUN yum -y install $KUBECTL\nRUN $KUBECTL --help" >> Dockerfile
 {
   docker build -t $KUBECTL-test -f $LOCALPATH/$KUBECTL/Dockerfile .
 } || {
