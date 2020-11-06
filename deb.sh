@@ -247,7 +247,8 @@ cd $LOCALPATH
 cd $MINIO_MC
 MINIO_MC_PACKAGE="mc"
 printf "\nRUN apt-get -y install $MINIO_MC_PACKAGE\nRUN $MINIO_MC_PACKAGE --version" >> Dockerfile
-#printf "\nRUN timeout --preserve-status 5 mc" >> Dockerfile
+printf "\nRUN mc -f" >> Dockerfile
+printf "\nRUN mc -F" >> Dockerfile
 {
   docker build -t $MINIO_MC-test -f $LOCALPATH/$MINIO_MC/Dockerfile .
 } || {
