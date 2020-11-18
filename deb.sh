@@ -16,7 +16,7 @@ MINIO_MC="minio-mc"
 RESTIC="restic"
 TERRAFORM="terraform"
 RCLONE="rclone"
-MATCHBOX="matchbox"
+MATCHBOX="poseidon-matchbox"
 KUBEADM="kubeadm"
 KUBECTL="kubectl"
 KUBELET="kubelet"
@@ -317,14 +317,8 @@ printf "\nRUN rclone sync -i rclone1 rclone2" >> Dockerfile
 cd $LOCALPATH
 
 cd $MATCHBOX
-printf "\nRUN printf \"Package: *" >> Dockerfile
-printf "\\" >> Dockerfile
-printf "n" >> Dockerfile
-printf "Pin: origin oplab9.parqtec.unicamp.br" >> Dockerfile
-printf "\\" >> Dockerfile
-printf "n" >> Dockerfile
-printf "Pin-Priority: 900\" >> /etc/apt/preferences" >> Dockerfile
 printf "\nRUN apt-get -y install $MATCHBOX\nRUN $MATCHBOX --version" >> Dockerfile
+
 {
   docker build -t $MATCHBOX-test -f $LOCALPATH/$MATCHBOX/Dockerfile .
 } || {
