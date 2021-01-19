@@ -8,8 +8,9 @@ services:
 
 jobs:
   include:
-    - env: instancia=docker
-    - env: instancia=vm1
+    #- env: instancia=docker
+    #- env: instancia=vm1
+    - env: instancia=vm2
 
 install:
   - sudo apt-get update
@@ -22,4 +23,7 @@ script:
     fi
   - if [ $instancia == "vm1" ]; then
       bash hello-docker.sh;
+    fi
+  - if [ $instancia == "vm2" ]; then
+      bash hello-crio.sh;
     fi
