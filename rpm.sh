@@ -20,6 +20,9 @@ MATCHBOX="matchbox"
 KUBEADM="kubeadm"
 KUBECTL="kubectl"
 KUBELET="kubelet"
+CRIO="crio"
+CRUN="crun"
+CONMON="conmon"
 
 mkdir rpm
 cd $LOCALPATH
@@ -45,6 +48,9 @@ mkdir $MATCHBOX
 mkdir $KUBEADM
 mkdir $KUBECTL
 mkdir $KUBELET
+mkdir $CRUN
+mkdir $CRIO
+mkdir $CONMON
 
 cp Dockerfile $CONTAINERD
 cp Dockerfile $CONTAINERD_CRI
@@ -65,6 +71,9 @@ cp Dockerfile $MATCHBOX
 cp Dockerfile $KUBEADM
 cp Dockerfile $KUBECTL
 cp Dockerfile $KUBELET
+cp Dockerfile $CRUN
+cp Dockerfile $CRIO
+cp Dockerfile $CONMON
 
 cd $CONTAINERD
 printf "\nRUN yum -y install $CONTAINERD\nRUN $CONTAINERD --version" >> Dockerfile
@@ -361,5 +370,47 @@ printf "\nRUN yum -y install $KUBELET\nRUN $KUBELET --version" >> Dockerfile
   docker run -d $KUBELET-test
 } || {
   printf "Error in RPM package, docker run process: $KUBELET\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+cd $CRUN
+printf "\nRUN yum -y install $CRUN\nRUN $CRUN --version" >> Dockerfile
+{
+  docker build -t $CRUN-test -f $LOCALPATH/$CRUN/Dockerfile .
+} || {
+  printf "Error in RPM package, docker build process: $CRUN\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $CRUN-test
+} || {
+  printf "Error in RPM package, docker run process: $CRUN\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+cd $CRIO
+printf "\nRUN yum -y install $CRIO\nRUN $CRIO --version" >> Dockerfile
+{
+  docker build -t $CRIO-test -f $LOCALPATH/$CRIO/Dockerfile .
+} || {
+  printf "Error in RPM package, docker build process: $CRIO\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $CRIO-test
+} || {
+  printf "Error in RPM package, docker run process: $CRIO\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+cd $LOCALPATH
+
+cd $CONMON
+printf "\nRUN yum -y install $CONMON\nRUN $CONMON --version" >> Dockerfile
+{
+  docker build -t $CONMON-test -f $LOCALPATH/$CONMON/Dockerfile .
+} || {
+  printf "Error in RPM package, docker build process: $CONMON\n" >> $TRAVIS_BUILD_DIR/log_error
+}
+{
+  docker run -d $CONMON-test
+} || {
+  printf "Error in RPM package, docker run process: $CONMON\n" >> $TRAVIS_BUILD_DIR/log_error
 }
 cd $LOCALPATH

@@ -10,8 +10,8 @@ go: "1.14.x"
 
 jobs:
   include:
-    #- env: instancia=docker
-    #- env: instancia=vm1
+    - env: instancia=docker
+    - env: instancia=vm1
     - env: instancia=vm2
 
 install:
