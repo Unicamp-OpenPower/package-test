@@ -6,11 +6,16 @@ sudo apt install -y git make crio
 sudo systemctl daemon-reload
 sudo systemctl enable crio
 sudo systemctl start crio
+echo "Import go"
 go get github.com/kubernetes-sigs/cri-tools/cmd/crictl
-sudo cp go/bin/crictl /usr/local/bin/
+echo "bin crictl"
+sudo cp ~/go/bin/crictl /usr/local/bin/
+echo "script start"
 sudo crictl --runtime-endpoint unix:///var/run/crio/crio.sock version
+echo "Clone crio"
 git clone https://github.com/cri-o/cri-o.git
 cd cri-o/
 sudo cp test/policy.json /etc/containers
+echo "End Script"
 POD_ID=$(sudo crictl runp test/testdata/sandbox_config.json)
 sudo crictl inspectp --output table $POD_ID

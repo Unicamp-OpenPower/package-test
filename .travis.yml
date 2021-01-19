@@ -1,10 +1,12 @@
 language: shell
 os: linux
 arch: ppc64le
-dist: bionic
+dist: focal
 sudo: required
 services:
   - docker
+
+go: "1.14.x"
 
 jobs:
   include:
