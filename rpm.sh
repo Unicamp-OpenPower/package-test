@@ -387,19 +387,19 @@ printf "\nRUN yum -y install $CRUN\nRUN $CRUN --version" >> Dockerfile
 }
 cd $LOCALPATH
 
-cd $CRIO
-printf "\nRUN yum -y install $CRIO\nRUN $CRIO --version" >> Dockerfile
-{
-  docker build -t $CRIO-test -f $LOCALPATH/$CRIO/Dockerfile .
-} || {
-  printf "Error in RPM package, docker build process: $CRIO\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-{
-  docker run -d $CRIO-test
-} || {
-  printf "Error in RPM package, docker run process: $CRIO\n" >> $TRAVIS_BUILD_DIR/log_error
-}
-cd $LOCALPATH
+#cd $CRIO
+#printf "\nRUN yum -y install $CRIO\nRUN $CRIO --version" >> Dockerfile
+#{
+  #docker build -t $CRIO-test -f $LOCALPATH/$CRIO/Dockerfile .
+#} || {
+  #printf "Error in RPM package, docker build process: $CRIO\n" >> $TRAVIS_BUILD_DIR/log_error
+#}
+#{
+  #docker run -d $CRIO-test
+#} || {
+  #printf "Error in RPM package, docker run process: $CRIO\n" >> $TRAVIS_BUILD_DIR/log_error
+#}
+#cd $LOCALPATH
 
 cd $CONMON
 printf "\nRUN yum -y install $CONMON\nRUN $CONMON --version" >> Dockerfile
